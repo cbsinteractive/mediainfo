@@ -25,10 +25,9 @@ Source and other platform downloads can be found [here](https://mediaarea.net/en
 ### Usage
 
 ```go
-logger := &log.logger{}
 file := "./path/to/file.mp4"
 
-mi, err := mediainfo.New(file, logger)
+mi, err := mediainfo.New(file)
 if err != nil {
   // handle err
 }
