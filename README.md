@@ -49,7 +49,7 @@ Run:
 
 ## <a name="pkg-index">Index</a>
 * [type MediaInfo](#MediaInfo)
-  * [func New(url string, logger *log.Logger) (*MediaInfo, error)](#New)
+  * [func New(url string) (*MediaInfo, error)](#New)
 * [type GeneralInfo](#GeneralInfo)
 * [type VideoTrack](#VideoTrack)
 * [type AudioTrack](#AudioTrack)
@@ -77,7 +77,7 @@ MediaInfo is the root container for all media metadata
 
 ### <a name="New">func</a> [New](mediainfo.go?s=115:175#L8)
 ``` go
-func New(url string, logger *log.Logger) (*MediaInfo, error)
+func New(url string) (*MediaInfo, error)
 ```
 New creates and returns MediaInfo from a url, optionally returns an error
 
