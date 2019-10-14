@@ -72,14 +72,6 @@ func videoTracksFrom(w *wrapper, numTracks int, logger *log.Logger) []VideoTrack
 	for i := 0; i < numTracks; i++ {
 		format := w.stringParam(streamVideo, videoParamFormat, i)
 		profile := w.stringParam(streamVideo, videoParamFormatProfile, i)
-		var bitDepth IntValue
-		if format.Val == videoFormatProRes && profile.Val == videoProfile4444 {
-			bitDepth = IntValue{
-				Val: bitDepth12,
-			}
-		} else {
-			bitDepth = w.intParam(streamVideo, videoParamBitDepth, i, logger)
-		}
 
 		tracks = append(tracks, VideoTrack{
 			StreamOrder:           w.intParam(streamVideo, videoParamStreamOrder, i, logger),
@@ -105,7 +97,7 @@ func videoTracksFrom(w *wrapper, numTracks int, logger *log.Logger) []VideoTrack
 			FrameCount:            w.intParam(streamVideo, videoParamFrameCount, i, logger),
 			ColorSpace:            w.stringParam(streamVideo, videoParamColorSpace, i),
 			ChromaSubsampling:     w.stringParam(streamVideo, videoParamChromaSubsampling, i),
-			BitDepth:              bitDepth,
+			BitDepth:              bitDepthFrom(w, format, profile, i, logger),
 			ScanType:              w.stringParam(streamVideo, videoParamScanType, i),
 			StreamSize:            w.int64Param(streamVideo, videoParamStreamSize, i, logger),
 			EncodedDate:           w.timeParam(streamVideo, videoParamEncodedDate, i, logger),
@@ -149,4 +141,14 @@ func audioTracksFrom(w *wrapper, numTracks int, logger *log.Logger) []AudioTrack
 	}
 
 	return tracks
+}
+
+func bitDepthFrom(w *wrapper, format, profile StringValue, i int, logger *log.Logger) IntValue {
+	if format.Val == videoFormatProRes && profile.Val == videoProfile4444 {
+		return IntValue{Val: bitDepth12}
+	} else if format.Val == videoFormatProRes && profile.Val == videoProfile422HQ {
+		return IntValue{Val: bitDepth10}
+	}
+
+	return w.intParam(streamVideo, videoParamBitDepth, i, logger)
 }
