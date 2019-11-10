@@ -6,7 +6,7 @@ const (
 	videoFormatProRes string = "ProRes"
 
 	videoProfile422HQ string = "422 HQ"
-	videoProfile4444 string = "4444"
+	videoProfile4444 string  = "4444"
 
 	bitDepth10 int = 10
 	bitDepth12 int = 12

@@ -20,6 +20,7 @@ import (
 // wrapper is an instance of a c_mediainfo accessor.
 type wrapper struct {
 	cptr unsafe.Pointer
+	resPtr *C.char
 }
 
 // streamKind is used to specify the type of stream (audio, video, chapters, etc) when getting information.
@@ -58,7 +59,7 @@ func init() {
 
 func newWrapper() *wrapper {
 	cmi := C.g_MediaInfo_New()
-	w := &wrapper{cmi}
+	w := &wrapper{cmi, nil}
 	runtime.SetFinalizer(w, func(w *wrapper) {
 		if w.cptr != nil {
 			C.g_MediaInfo_Delete(w.cptr)
@@ -85,8 +86,9 @@ func (w *wrapper) get(section streamKind, param string, streamNum int) string {
 func (w *wrapper) getKind(streamKind streamKind, streamNumber int, parameter string, kindOfInfo infoKind) string {
 	cparameter := C.CString(parameter)
 	defer C.free(unsafe.Pointer(cparameter))
-	return C.GoString(C.g_MediaInfo_Get(w.cptr, toCStream(streamKind), C.size_t(streamNumber), cparameter,
-		toCInfo(kindOfInfo), toCInfo(infoName)))
+
+	w.resPtr = C.g_MediaInfo_Get(w.cptr, toCStream(streamKind), C.size_t(streamNumber), cparameter, toCInfo(kindOfInfo), toCInfo(infoName))
+	return C.GoString(w.resPtr)
 }
 
 func (w *wrapper) count(streamKind streamKind) int {
@@ -94,6 +96,7 @@ func (w *wrapper) count(streamKind streamKind) int {
 }
 
 func (w *wrapper) close() {
+	w.resPtr = nil
 	C.g_MediaInfo_Close(w.cptr)
 }
 
