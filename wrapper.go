@@ -4,6 +4,7 @@ package mediainfo
 #cgo linux LDFLAGS: -ldl
 #cgo darwin LDFLAGS: -framework CoreFoundation
 #include <stdlib.h>
+#include <string.h>
 #include "clib/mediainfo.c"
 */
 import "C"
@@ -87,7 +88,12 @@ func (w *wrapper) getKind(streamKind streamKind, streamNumber int, parameter str
 	val := C.g_MediaInfo_Get(w.cptr, toCStream(streamKind), C.size_t(streamNumber), cparameter, toCInfo(kindOfInfo), toCInfo(infoName))
 	C.free(unsafe.Pointer(cparameter))
 
-	return C.GoString(val)
+	_ = val
+
+	v := C.GoString(val)
+	C.free(unsafe.Pointer(val))
+
+	return v
 }
 
 func (w *wrapper) count(streamKind streamKind) int {

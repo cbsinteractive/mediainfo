@@ -15,9 +15,9 @@ static inline size_t g_MediaInfo_Open(void *mi, const char *name) {
   return MediaInfo_Open(mi, name);
 }
 
-static inline const char* g_MediaInfo_Get(void *mi, MediaInfo_stream_C streamKind, size_t streamNumber,
+static inline char* g_MediaInfo_Get(void *mi, MediaInfo_stream_C streamKind, size_t streamNumber,
   const char *parameter, MediaInfo_info_C kindOfInfo, MediaInfo_info_C kindOfSearch) {
-  return MediaInfo_Get(mi, streamKind, streamNumber, parameter, kindOfInfo, kindOfSearch);
+  return strdup(MediaInfo_Get(mi, streamKind, streamNumber, parameter, kindOfInfo, kindOfSearch));
 }
 
 static inline size_t g_MediaInfo_Count_Get(void *mi, MediaInfo_stream_C streamKind) {
