@@ -1,7 +1,6 @@
 package mediainfo
 
 import (
-	"log"
 	"strconv"
 	"time"
 )
@@ -194,10 +193,7 @@ func intParam(val string) IntValue {
 		return IntValue{Val: 0}
 	}
 
-	i, err := strconv.Atoi(val)
-	if err != nil {
-		log.Printf("\nconverting param %q to an int: %v", val, err)
-	}
+	i, _ := strconv.Atoi(val)
 
 	return IntValue{Val: i}
 }
@@ -207,10 +203,7 @@ func int64Param(val string) Int64Value {
 		return Int64Value{Val: 0}
 	}
 
-	i, err := strconv.ParseInt(val, 10, 64)
-	if err != nil {
-		log.Printf("\nconverting param %q to an int64: %v", val, err)
-	}
+	i, _ := strconv.ParseInt(val, 10, 64)
 
 	return Int64Value{Val: i}
 }
@@ -220,10 +213,7 @@ func float64Param(val string) Float64Value {
 		return Float64Value{Val: 0}
 	}
 
-	f, err := strconv.ParseFloat(val, 64)
-	if err != nil {
-		log.Printf("\nconverting param %q to an float64: %v", val, err)
-	}
+	f, _ := strconv.ParseFloat(val, 64)
 
 	return Float64Value{Val: f}
 }
@@ -237,19 +227,13 @@ func boolParam(val string) BoolValue {
 }
 
 func timeParam(val string) TimeValue {
-	t, err := time.Parse("MST 2006-01-02 15:04:05", val)
-	if err != nil {
-		log.Printf("\nconverting param %q to time.Time: %v", val, err)
-	}
+	t, _ := time.Parse("MST 2006-01-02 15:04:05", val)
 
 	return TimeValue{Val: t}
 }
 
 func localTimeParam(val string) TimeValue {
-	t, err := time.Parse("2006-01-02 15:04:05", val)
-	if err != nil {
-		log.Printf("\nconverting param %q to time.Time: %v", val, err)
-	}
+	t, _ := time.Parse("2006-01-02 15:04:05", val)
 
 	return TimeValue{Val: t}
 }
