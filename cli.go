@@ -129,6 +129,9 @@ func audioTrackFrom(track Track) AudioTrack {
 }
 
 func videoTrackFrom(track Track) VideoTrack {
+	format := stringParam(track.Format)
+	profile := stringParam(track.FormatProfile)
+
 	return VideoTrack{
 		StreamOrder:        intParam(track.StreamOrder),
 		ID:                 intParam(track.ID),
@@ -152,7 +155,7 @@ func videoTrackFrom(track Track) VideoTrack {
 		FrameCount:         intParam(track.FrameCount),
 		ColorSpace:         stringParam(track.ColorSpace),
 		ChromaSubsampling:  stringParam(track.ChromaSubsampling),
-		BitDepth:           intParam(track.BitDepth),
+		BitDepth:           bitDepthFrom(track, format, profile),
 		ScanType:           stringParam(track.ScanType),
 		StreamSize:         int64Param(track.StreamSize),
 		EncodedDate:        timeParam(track.EncodedDate),
@@ -236,4 +239,14 @@ func localTimeParam(val string) TimeValue {
 	t, _ := time.Parse("2006-01-02 15:04:05", val)
 
 	return TimeValue{Val: t}
+}
+
+func bitDepthFrom(track Track, format, profile StringValue) IntValue {
+	if format.Val == videoFormatProRes && profile.Val == videoProfile4444 {
+		return IntValue{Val: bitDepth12}
+	} else if format.Val == videoFormatProRes && profile.Val == videoProfile422HQ {
+		return IntValue{Val: bitDepth10}
+	}
+
+	return intParam(track.BitDepth)
 }

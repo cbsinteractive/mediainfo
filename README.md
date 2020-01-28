@@ -1,11 +1,9 @@
 # mediainfo
 A wrapper for [libmediainfo](https://mediaarea.net/en/MediaInfo) -- returns metadata about media streams
 
-Inspired by https://github.com/jkl1337/go-mediainfo
-
 ### Dependencies
 
-- libmediainfo
+- mediainfo CLI
 
 On macOS (via [homebrew](https://brew.sh/)):
 
@@ -13,11 +11,6 @@ On macOS (via [homebrew](https://brew.sh/)):
 
 Or install mediainfo from [here](https://mediaarea.net/en/MediaInfo/Download).
 
-With `apt-get`:
-
-    sudo apt-get update -qq && sudo apt-get install -qq libmediainfo-dev
-    
-    
 Source and other platform downloads can be found [here](https://mediaarea.net/en/MediaInfo/Download).
 
 ---
@@ -25,14 +18,12 @@ Source and other platform downloads can be found [here](https://mediaarea.net/en
 ### Usage
 
 ```go
-file := "./path/to/file.mp4"
-
-mi, err := mediainfo.New(file)
+info, err := mediainfo.Analyze("http://domain.com/file.mp4")
 if err != nil {
   // handle err
 }
 
-fmt.Println(mi) // access and use metadata from this filled info struct
+fmt.Println(info) // access and use metadata from this filled info struct
 ```
 
 Another easy way to get started is to run the examples in `mediainfo_test.go`
