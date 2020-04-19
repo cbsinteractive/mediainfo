@@ -1,13 +1,9 @@
-package mediainfo_test
+package mediainfo
 
-import (
-	"fmt"
-
-	"github.com/cbsinteractive/mediainfo"
-)
+import "fmt"
 
 func ExampleAnalyze() {
-	mi, _ := mediainfo.Analyze(
+	mi, _ := Analyze(
 		"./testdata/test_bbb_360x240_1mb.mp4",
 	)
 
