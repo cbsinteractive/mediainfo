@@ -4,11 +4,12 @@ import "time"
 
 // MediaInfo is the root container for all media metadata
 type MediaInfo struct {
-	File        string
-	TmpFile     string `json:"-"`
-	General     GeneralInfo
-	VideoTracks []VideoTrack
-	AudioTracks []AudioTrack
+	File           string
+	TmpFile        string `json:"-"`
+	General        GeneralInfo
+	VideoTracks    []VideoTrack
+	AudioTracks    []AudioTrack
+	TimecodeTracks []TimecodeTrack
 }
 
 // GeneralInfo contains all stream metadata tagged as general
@@ -67,6 +68,8 @@ type VideoTrack struct {
 	StreamSize            Int64Value
 	EncodedDate           TimeValue
 	TaggedDate            TimeValue
+	FirstFrameTimecode    StringValue
+	Delay                 Float64Value
 }
 
 // AudioTrack contains all stream metadata for a single video track
@@ -95,6 +98,11 @@ type AudioTrack struct {
 	AlternateGroup           StringValue
 	EncodedDate              TimeValue
 	TaggedDate               TimeValue
+}
+
+type TimecodeTrack struct {
+	ID, Format, FirstFrameTimecode, Settings StringValue
+	FrameRate, Delay                         Float64Value
 }
 
 // Extra is the set of values that enrich a raw property value

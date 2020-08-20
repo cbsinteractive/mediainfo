@@ -5,12 +5,22 @@ import (
 	"time"
 )
 
+const (
+	typeGeneral = "General"
+	typeVideo   = "Video"
+	typeAudio   = "Audio"
+	typeOther   = "Other"
+
+	typeSecondaryTimecode = "Time code"
+)
+
 type cliMediaInfo struct {
 	Media Media `json:"media"`
 }
 
 type Track struct {
 	Type                     string `json:"@type"`
+	TypeSecondary            string `json:"Type"`
 	VideoCount               string `json:"VideoCount,omitempty"`
 	AudioCount               string `json:"AudioCount,omitempty"`
 	TextCount                string `json:"TextCount,omitempty"`
@@ -76,6 +86,9 @@ type Track struct {
 	MuxingMode               string `json:"MuxingMode,omitempty"`
 	MuxingModeMoreInfo       string `json:"MuxingMode_MoreInfo,omitempty"`
 	StreamSizeEncoded        string `json:"StreamSize_Encoded,omitempty"`
+	FirstFrameTimecode       string `json:"TimeCode_FirstFrame,omitempty"`
+	TimecodeSettings         string `json:"TimeCode_Settings,omitempty"`
+	Delay                    string `json:"Delay,omitempty"`
 }
 
 type Media struct {
@@ -87,12 +100,17 @@ func (m cliMediaInfo) toMediaInfo() MediaInfo {
 	mi := MediaInfo{}
 	for _, track := range m.Media.Track {
 		switch track.Type {
-		case "General":
+		case typeGeneral:
 			mi.General = generalInfoFrom(track)
-		case "Video":
+		case typeVideo:
 			mi.VideoTracks = append(mi.VideoTracks, videoTrackFrom(track))
-		case "Audio":
+		case typeAudio:
 			mi.AudioTracks = append(mi.AudioTracks, audioTrackFrom(track))
+		case typeOther:
+			switch track.TypeSecondary {
+			case typeSecondaryTimecode:
+				mi.TimecodeTracks = append(mi.TimecodeTracks, timecodeTracksFrom(track))
+			}
 		}
 	}
 
@@ -160,6 +178,8 @@ func videoTrackFrom(track Track) VideoTrack {
 		StreamSize:         int64Param(track.StreamSize),
 		EncodedDate:        timeParam(track.EncodedDate),
 		TaggedDate:         timeParam(track.TaggedDate),
+		FirstFrameTimecode: stringParam(track.FirstFrameTimecode),
+		Delay:              float64Param(track.Delay),
 	}
 
 }
@@ -188,6 +208,17 @@ func generalInfoFrom(track Track) GeneralInfo {
 		FileModifiedDate:      timeParam(track.FileModifiedDate),
 		FileModifiedDateLocal: localTimeParam(track.FileModifiedDateLocal),
 		EncodedApplication:    stringParam(track.EncodedApplication),
+	}
+}
+
+func timecodeTracksFrom(track Track) TimecodeTrack {
+	return TimecodeTrack{
+		ID:                 stringParam(track.ID),
+		Format:             stringParam(track.Format),
+		FirstFrameTimecode: stringParam(track.FirstFrameTimecode),
+		Settings:           stringParam(track.TimecodeSettings),
+		FrameRate:          float64Param(track.FrameRate),
+		Delay:              float64Param(track.Delay),
 	}
 }
 
