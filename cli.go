@@ -56,6 +56,7 @@ type Track struct {
 	BitRate                  string `json:"BitRate,omitempty"`
 	Width                    string `json:"Width,omitempty"`
 	Height                   string `json:"Height,omitempty"`
+	HeightOffset             string `json:"Height_Offset,omitempty"`
 	StoredHeight             string `json:"Stored_Height,omitempty"`
 	SampledWidth             string `json:"Sampled_Width,omitempty"`
 	SampledHeight            string `json:"Sampled_Height,omitempty"`
@@ -163,6 +164,7 @@ func videoTrackFrom(track Track) VideoTrack {
 		Bitrate:            intParam(track.BitRate),
 		Width:              intParam(track.Width),
 		Height:             intParam(track.Height),
+		HeightOffset:       intParam(track.HeightOffset),
 		SampledWidth:       intParam(track.SampledWidth),
 		SampledHeight:      intParam(track.SampledHeight),
 		PixelAspectRatio:   float64Param(track.PixelAspectRatio),

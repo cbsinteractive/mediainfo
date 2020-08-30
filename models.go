@@ -52,6 +52,7 @@ type VideoTrack struct {
 	Bitrate               IntValue
 	Width                 IntValue
 	Height                IntValue
+	HeightOffset          IntValue
 	SampledWidth          IntValue
 	SampledHeight         IntValue
 	PixelAspectRatio      Float64Value
