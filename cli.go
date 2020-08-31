@@ -9,6 +9,7 @@ const (
 	typeGeneral = "General"
 	typeVideo   = "Video"
 	typeAudio   = "Audio"
+	typeText    = "Text"
 	typeOther   = "Other"
 
 	typeSecondaryTimecode = "Time code"
@@ -87,9 +88,11 @@ type Track struct {
 	MuxingMode               string `json:"MuxingMode,omitempty"`
 	MuxingModeMoreInfo       string `json:"MuxingMode_MoreInfo,omitempty"`
 	StreamSizeEncoded        string `json:"StreamSize_Encoded,omitempty"`
+	FirstTimecode            string `json:"TimeCode_First,omitempty"`
 	FirstFrameTimecode       string `json:"TimeCode_FirstFrame,omitempty"`
 	TimecodeSettings         string `json:"TimeCode_Settings,omitempty"`
 	Delay                    string `json:"Delay,omitempty"`
+	Language                 string `json:"Language,omitempty"`
 }
 
 type Media struct {
@@ -107,6 +110,8 @@ func (m cliMediaInfo) toMediaInfo() MediaInfo {
 			mi.VideoTracks = append(mi.VideoTracks, videoTrackFrom(track))
 		case typeAudio:
 			mi.AudioTracks = append(mi.AudioTracks, audioTrackFrom(track))
+		case typeText:
+			mi.TextTracks = append(mi.TextTracks, textTrackFrom(track))
 		case typeOther:
 			switch track.TypeSecondary {
 			case typeSecondaryTimecode:
@@ -184,6 +189,19 @@ func videoTrackFrom(track Track) VideoTrack {
 		Delay:              float64Param(track.Delay),
 	}
 
+}
+
+func textTrackFrom(track Track) TextTrack {
+	return TextTrack{
+		ID:              intParam(track.ID),
+		Format:          stringParam(track.Format),
+		Duration:        float64Param(track.Duration),
+		Width:           intParam(track.Width),
+		Height:          intParam(track.Height),
+		CompressionMode: stringParam(track.CompressionMode),
+		Language:        stringParam(track.Language),
+		FirstTimecode:   stringParam(track.FirstTimecode),
+	}
 }
 
 func generalInfoFrom(track Track) GeneralInfo {

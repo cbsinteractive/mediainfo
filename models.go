@@ -9,6 +9,7 @@ type MediaInfo struct {
 	General        GeneralInfo
 	VideoTracks    []VideoTrack
 	AudioTracks    []AudioTrack
+	TextTracks     []TextTrack
 	TimecodeTracks []TimecodeTrack
 }
 
@@ -99,6 +100,18 @@ type AudioTrack struct {
 	AlternateGroup           StringValue
 	EncodedDate              TimeValue
 	TaggedDate               TimeValue
+}
+
+// TextTrack contains track metadata carrying text information
+type TextTrack struct {
+	ID              IntValue
+	Format          StringValue
+	Duration        Float64Value
+	Width           IntValue
+	Height          IntValue
+	CompressionMode StringValue
+	Language        StringValue
+	FirstTimecode   StringValue
 }
 
 type TimecodeTrack struct {
