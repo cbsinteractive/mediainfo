@@ -17,6 +17,7 @@ type MediaInfo struct {
 type GeneralInfo struct {
 	VideoTrackCount       IntValue
 	AudioTrackCount       IntValue
+	TextTrackCount        IntValue
 	Format                StringValue
 	FormatProfile         StringValue
 	CodecID               StringValue
@@ -109,9 +110,10 @@ type TextTrack struct {
 	Duration        Float64Value
 	Width           IntValue
 	Height          IntValue
+	FrameRate       Float64Value
 	CompressionMode StringValue
 	Language        StringValue
-	FirstTimecode   StringValue
+	Delay           Float64Value
 }
 
 type TimecodeTrack struct {

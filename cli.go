@@ -88,7 +88,6 @@ type Track struct {
 	MuxingMode               string `json:"MuxingMode,omitempty"`
 	MuxingModeMoreInfo       string `json:"MuxingMode_MoreInfo,omitempty"`
 	StreamSizeEncoded        string `json:"StreamSize_Encoded,omitempty"`
-	FirstTimecode            string `json:"TimeCode_First,omitempty"`
 	FirstFrameTimecode       string `json:"TimeCode_FirstFrame,omitempty"`
 	TimecodeSettings         string `json:"TimeCode_Settings,omitempty"`
 	Delay                    string `json:"Delay,omitempty"`
@@ -198,9 +197,10 @@ func textTrackFrom(track Track) TextTrack {
 		Duration:        float64Param(track.Duration),
 		Width:           intParam(track.Width),
 		Height:          intParam(track.Height),
+		FrameRate:       float64Param(track.FrameRate),
 		CompressionMode: stringParam(track.CompressionMode),
 		Language:        stringParam(track.Language),
-		FirstTimecode:   stringParam(track.FirstTimecode),
+		Delay:           float64Param(track.Delay),
 	}
 }
 
@@ -208,6 +208,7 @@ func generalInfoFrom(track Track) GeneralInfo {
 	return GeneralInfo{
 		VideoTrackCount:       intParam(track.VideoCount),
 		AudioTrackCount:       intParam(track.AudioCount),
+		TextTrackCount:        intParam(track.TextCount),
 		Format:                stringParam(track.Format),
 		FormatProfile:         stringParam(track.FormatProfile),
 		CodecID:               stringParam(track.CodecID),
