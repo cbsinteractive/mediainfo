@@ -74,11 +74,12 @@ func New(url string) (*MediaInfo, error)
 ```
 New creates and returns MediaInfo from a url, optionally returns an error
 
-## <a name="GeneralInfo">type</a> [GeneralInfo](models.go?s=258:1065#L13)
+## <a name="GeneralInfo">type</a> [GeneralInfo](models.go?s=258:1065#L17)
 ``` go
 type GeneralInfo struct {
     VideoTrackCount       IntValue
     AudioTrackCount       IntValue
+    TextTrackCount        IntValue
     FileExtension         StringValue
     Format                StringValue
     FormatProfile         StringValue
@@ -105,7 +106,7 @@ type GeneralInfo struct {
 ```
 GeneralInfo contains all stream metadata tagged as general
 
-## <a name="VideoTrack">type</a> [VideoTrack](models.go?s=1135:2109#L40)
+## <a name="VideoTrack">type</a> [VideoTrack](models.go?s=1135:2109#L43)
 ``` go
 type VideoTrack struct {
     StreamOrder           IntValue
@@ -141,7 +142,7 @@ type VideoTrack struct {
 ```
 VideoTrack contains all stream metadata for a single video track
 
-## <a name="AudioTrack">type</a> [AudioTrack](models.go?s=2179:3086#L72)
+## <a name="AudioTrack">type</a> [AudioTrack](models.go?s=2179:3086#L79)
 ``` go
 type AudioTrack struct {
     StreamOrder              IntValue
@@ -173,7 +174,7 @@ type AudioTrack struct {
 ```
 AudioTrack contains all stream metadata for a single video track
 
-## <a name="TextTrack">type</a> [TextTrack](models.go?s=2179:3086#L106)
+## <a name="TextTrack">type</a> [TextTrack](models.go?s=2179:3086#L107)
 ```go
 type TextTrack struct {
 	ID              IntValue
@@ -181,14 +182,15 @@ type TextTrack struct {
 	Duration        Float64Value
 	Width           IntValue
 	Height          IntValue
+	FrameRate       Float64Value
 	CompressionMode StringValue
 	Language        StringValue
-	FirstTimecode   StringValue
+	Delay           Float64Value
 }
 ```
 TextTrack contains all stream metadata for a single text track
 
-## <a name="TimecodeTrack">type</a> [TimecodeTrack](models.go?s=2179:3086#L117)
+## <a name="TimecodeTrack">type</a> [TimecodeTrack](models.go?s=2179:3086#L119)
 ```go
 type TimecodeTrack struct {
 	ID, Format, FirstFrameTimecode, Settings StringValue
@@ -197,7 +199,7 @@ type TimecodeTrack struct {
 ```
 TimecodeTrack contains all stream metadata for a single timecode track
 
-## <a name="BoolValue">type</a> [BoolValue](models.go?s=3762:3812#L154)
+## <a name="BoolValue">type</a> [BoolValue](models.go?s=3762:3812#L156)
 ``` go
 type BoolValue struct {
     Val   bool
@@ -207,7 +209,7 @@ type BoolValue struct {
 ```
 BoolValue is a custom wrapper for a bool + Extra metadata
 
-## <a name="StringValue">type</a> [StringValue](models.go?s=3645:3699#L148)
+## <a name="StringValue">type</a> [StringValue](models.go?s=3645:3699#L150)
 ``` go
 type StringValue struct {
     Val   string
@@ -217,7 +219,7 @@ type StringValue struct {
 ```
 StringValue is a custom wrapper for an string + Extra metadata
 
-## <a name="IntValue">type</a> [IntValue](models.go?s=3285:3333#L136)
+## <a name="IntValue">type</a> [IntValue](models.go?s=3285:3333#L132)
 ``` go
 type IntValue struct {
     Val   int
@@ -227,7 +229,7 @@ type IntValue struct {
 ```
 IntValue is a custom wrapper for an int + Extra metadata
 
-## <a name="Int64Value">type</a> [Int64Value](models.go?s=3399:3451#L130)
+## <a name="Int64Value">type</a> [Int64Value](models.go?s=3399:3451#L138)
 ``` go
 type Int64Value struct {
     Val   int64
@@ -237,8 +239,7 @@ type Int64Value struct {
 ```
 Int64Value is a custom wrapper for an int64 + Extra metadata
 
-## <a name="Float64Value">type</a> [Float64Value](models.go?s=3521:3577#L142)
-``` go
+## <a name="Float64Value">type</a> [Float64Value](models.go?s=3521:3577#L144)
 type Float64Value struct {
     Val   float64
     Extra Extra
@@ -247,7 +248,7 @@ type Float64Value struct {
 ```
 Float64Value is a custom wrapper for an float64 + Extra metadata
 
-## <a name="TimeValue">type</a> [TimeValue](models.go?s=3880:3935#L160)
+## <a name="TimeValue">type</a> [TimeValue](models.go?s=3880:3935#L162)
 ``` go
 type TimeValue struct {
     Val   time.Time
@@ -257,7 +258,7 @@ type TimeValue struct {
 ```
 TimeValue is a custom wrapper for a time.Time + Extra metadata
 
-## <a name="Extra">type</a> [Extra](models.go?s=3151:3223#L123)
+## <a name="Extra">type</a> [Extra](models.go?s=3151:3223#L125)
 ``` go
 type Extra struct {
     Measure  string
