@@ -9,6 +9,7 @@ const (
 	typeGeneral = "General"
 	typeVideo   = "Video"
 	typeAudio   = "Audio"
+	typeText    = "Text"
 	typeOther   = "Other"
 
 	typeSecondaryTimecode = "Time code"
@@ -90,6 +91,7 @@ type Track struct {
 	FirstFrameTimecode       string `json:"TimeCode_FirstFrame,omitempty"`
 	TimecodeSettings         string `json:"TimeCode_Settings,omitempty"`
 	Delay                    string `json:"Delay,omitempty"`
+	Language                 string `json:"Language,omitempty"`
 }
 
 type Media struct {
@@ -107,6 +109,8 @@ func (m cliMediaInfo) toMediaInfo() MediaInfo {
 			mi.VideoTracks = append(mi.VideoTracks, videoTrackFrom(track))
 		case typeAudio:
 			mi.AudioTracks = append(mi.AudioTracks, audioTrackFrom(track))
+		case typeText:
+			mi.TextTracks = append(mi.TextTracks, textTrackFrom(track))
 		case typeOther:
 			switch track.TypeSecondary {
 			case typeSecondaryTimecode:
@@ -186,10 +190,25 @@ func videoTrackFrom(track Track) VideoTrack {
 
 }
 
+func textTrackFrom(track Track) TextTrack {
+	return TextTrack{
+		ID:              intParam(track.ID),
+		Format:          stringParam(track.Format),
+		Duration:        float64Param(track.Duration),
+		Width:           intParam(track.Width),
+		Height:          intParam(track.Height),
+		FrameRate:       float64Param(track.FrameRate),
+		CompressionMode: stringParam(track.CompressionMode),
+		Language:        stringParam(track.Language),
+		Delay:           float64Param(track.Delay),
+	}
+}
+
 func generalInfoFrom(track Track) GeneralInfo {
 	return GeneralInfo{
 		VideoTrackCount:       intParam(track.VideoCount),
 		AudioTrackCount:       intParam(track.AudioCount),
+		TextTrackCount:        intParam(track.TextCount),
 		Format:                stringParam(track.Format),
 		FormatProfile:         stringParam(track.FormatProfile),
 		CodecID:               stringParam(track.CodecID),
