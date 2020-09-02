@@ -106,7 +106,7 @@ type GeneralInfo struct {
 ```
 GeneralInfo contains all stream metadata tagged as general
 
-## <a name="VideoTrack">type</a> [VideoTrack](models.go?s=1135:2109#L43)
+## <a name="VideoTrack">type</a> [VideoTrack](models.go?s=1135:2109#L44)
 ``` go
 type VideoTrack struct {
     StreamOrder           IntValue
